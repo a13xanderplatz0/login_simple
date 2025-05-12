@@ -370,6 +370,7 @@ canvas {
     .container {
         justify-content: center;
         padding: 20px;
+        flex-direction: column;
     }
     
     .form-container {
@@ -379,10 +380,21 @@ canvas {
         background: rgba(0, 0, 0, 0.8);
         border-radius: 12px;
         backdrop-filter: blur(10px);
+        order: 2; /* Mover el formulario al final */
     }
     
     #canvas-container {
-        display: none; /* Ocultar el círculo en móviles */
+        display: none !important; /* Forzar ocultamiento del canvas */
+        width: 0 !important;
+        height: 0 !important;
+        position: absolute !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    canvas {
+        display: none !important; /* Asegurarse de que el canvas también esté oculto */
     }
     
     body {
