@@ -116,6 +116,40 @@ console.log('1. Cargando three-scene.js...');
         controls.maxDistance = 30;
         controls.target.set(0, 0, 0);
         controls.update();
+        
+        // Función para manejar el redimensionamiento
+        function onWindowResize() {
+            // Obtener el ancho del contenedor
+            const width = canvasContainer.clientWidth;
+            const height = window.innerHeight;
+            
+            // Actualizar la cámara
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            
+            // Actualizar el renderizador
+            renderer.setSize(width, height);
+        }
+        
+        // Configurar el manejador de redimensionamiento
+        window.addEventListener('resize', onWindowResize, false);
+        
+        // Llamar una vez para configurar el tamaño inicial
+        onWindowResize();
+        
+        // Verificar si estamos en un dispositivo móvil
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            // Detener la animación y limpiar recursos
+            cancelAnimationFrame(animationId);
+            if (renderer) {
+                renderer.dispose();
+                if (renderer.domElement && renderer.domElement.parentNode) {
+                    renderer.domElement.parentNode.removeChild(renderer.domElement);
+                }
+            }
+            return; // Salir de la función init()
+        }
 
         // Crear fondo estrellado
         function createStarfield(starCount = 2000) {
